@@ -2,20 +2,31 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"net/http"
+	"os"
+
+	"github.com/anaskhan96/soup"
 )
 
 func main() {
-	resp, err := http.Get("https://www.linkedin.com/jobs/view/2800185827/?eBP=JOB_SEARCH_ORGANIC&recommendedFlavor=ACTIVELY_HIRING_COMPANY&refId=OLy91auxhev%2Bji3JoxTGMA%3D%3D&trackingId=ra4i8jiXL5tS4n2mI0oxVA%3D%3D&trk=flagship3_search_srp_jobs")
-	// resp, err := http.Get("http://example.com/")
+	// resp, err := http.Get("https://www.linkedin.com/jobs/search/?geoId=103366113&location=Vancouver%2C%20British%20Columbia%2C%20Canada")
+	// // resp, err := http.Get("http://example.com/")
+	// if err != nil {
+	// 	fmt.Println("HTTP Request Error!")
+	// }
+	// defer resp.Body.Close()
+	// body, err := io.ReadAll(resp.Body)
+	// if err != nil {
+	// 	fmt.Println("Parse Error!")
+	// }
+	// fmt.Println(string(body))
+
+	resp, err := soup.Get("https://www.linkedin.com/jobs/search?keywords=&location=Vancouver%2C%20British%20Columbia%2C%20Canada&geoId=103366113&trk=guest_homepage-basic_jobs-search-bar_search-submit&position=1&pageNum=0")
+
 	if err != nil {
-		fmt.Println("HTTP Request Error!")
+		os.Exit(1)
 	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Parse Error!")
-	}
-	fmt.Println(string(body))
+	doc := soup.HTMLParse(resp)
+	links := doc.Find("div", "class", "base-card").Attrs()["data-search-id"]
+	fmt.Println(links)
+
 }
