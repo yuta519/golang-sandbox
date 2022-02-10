@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
+	"github.com/yuta519/notion_api"
 )
 
 func main() {
@@ -17,9 +18,13 @@ func main() {
 	}
 
 	SECRET := "Bearer " + os.Getenv("NOTION_SECRET")
-	fmt.Println(fetch_page_id(SECRET, "xxxxxxxxxxxxxxxxxxx"))
-	fmt.Println(updata_page(SECRET, "xxxxxxxxxxxxxxxxxxx"))
-	fmt.Println(create_page(SECRET, "xxxxxxxxxxxxxxxxxxx"))
+	res := notion_api.FetchPageId(SECRET, "21a6dcf9bc0a4715a94b97ab8531b1ed")
+	fmt.Println(res)
+
+	// fmt.Println(fetch_database_id(SECRET))
+	// fmt.Println(fetch_page_id(SECRET, "21a6dcf9bc0a4715a94b97ab8531b1ed"))
+	// fmt.Println(updata_page(SECRET, "c8a00b06-b012-44cf-ad34-e8fc779d1392"))
+	// fmt.Println(create_page(SECRET, "21a6dcf9bc0a4715a94b97ab8531b1ed"))
 }
 
 func fetch_database_id(SECRET string) string {
